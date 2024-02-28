@@ -2,8 +2,8 @@
     ______
    /\_____\
   _\ \__/_/_
- /\_\ \_____\
- \ \ \/ / / /
+/\_\ \_____\
+\ \ \/ / / /
   \ \/ /\/ /
    \/_/\/_/
 
@@ -20,22 +20,27 @@ Patryk Milkiewicz
 
 #define VERBOSE 1
 
-class DigitalRain {
+class Rain {
 public:
-    DigitalRain();
-    ~DigitalRain();
-    //DigitalRain(int);
-    //DigitalRain(int, int);
-    //DigitalRain(int, int, char);
+    Rain();
+    ~Rain();
+    Rain(const std::vector<char>&);
+    Rain(int, int, const std::vector<char>&);
+    Rain(Rain&);
+    void SetChars(const std::vector<char>&);
+    std::vector<char> GetChars() const { return chars; }
+
+    void GoToXY(int, int) const;
+    void Print(int, int, const std::vector<char>&);
 
 private:
+    std::vector<char> chars;
     int x;
     int y;
-    char a;
 
     static int count;
 };
 
-std::ostream& operator<<(std::ostream& output, const DigitalRain& p);
+std::ostream& operator<<(std::ostream& output, const Rain& p);
 
 #endif
