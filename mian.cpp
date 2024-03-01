@@ -19,12 +19,13 @@ Patryk Milkiewicz
 #include <windows.h>
 
 int main() {
-    Rain dr(0, 0, { 'e', 'd', 'c', 'b', 'a' });
-    Rain dr2(0, 0, { 'e', 'd', 'c', 'b', 'a' });
-    std::vector<char> test = { 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a' };
-
-    std::vector<char> test2 = { 'h', 'g', 'f', 'e', 'd', 'c', 'b', 'a' };
+    Rain dr;
+    Rain dr3(15, 0, 0, { 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'});
     
+    dr.Init();
+    
+    
+    /*
     int i = 0;
     int j = 0;
     int x = size(test);
@@ -45,7 +46,7 @@ int main() {
         i++;
         j++;
     }
-
+    */
 
     return 0;
 }

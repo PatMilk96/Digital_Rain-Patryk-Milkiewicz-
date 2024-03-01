@@ -20,15 +20,19 @@ Patryk Milkiewicz
 
 int Rain::count = 0;
 
-Rain::Rain() : x{ 0 }, y{ 0 }, chars{ 'a', 'b', 'c', 'd', 'e' } {
+Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, chars { 'a', 'b', 'c', 'd', 'e' } {
     count++;
 }
 
-Rain::Rain(const std::vector<char>& ch) : x{ 0 }, y{ 0 }, chars{ ch } {
+Rain::Rain(const std::vector<char>& ch) : x{ 0 }, y{ 0 }, arrP{ 0 }, chars { ch } {
     count++;
 }
 
 Rain::Rain(int posX, int posY, const std::vector<char>& ch) : x{ posX }, y{ posY }, chars{ ch } {
+    count++;
+}
+
+Rain::Rain(int posX, int posY, int posA, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, chars { ch } {
     count++;
 }
 
@@ -62,19 +66,24 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
     return output;
 }
 
-void Print(Rain& dr) {
-    int i;
-    dr.GoToXY(0, i);
-    std::cout << dr.GetChars();
-    /*if (j == size(test)) { j = 0; }
+void Rain::Init() {
+    Rain dr2(15, 15, 0, { 'a', 'b', 'c', 'd', 'e' });
+    Print(dr2);
 
-    dr.GoToXY(0, i);
+    //Here I want to send the drops to a sorting function
+    //that will iterate through a vector of objects, sending them 1 by one to the Print algo
+}
 
-    std::cout << test[j];
-
-    dr.GoToXY(0, i - x);
-
+void Rain::Print(Rain& dr) {
+    std::vector<char> drop = dr.GetChars();
+    if (arrP == size(drop)) { arrP = 0; }
+    dr.GoToXY(15, y);
+    std::cout << drop[arrP];
+    dr.GoToXY(15, y - size(drop));
     std::cout << ' ';
+    Sleep(150);
 
-    Sleep(75);*/
+    y++;
+    arrP++;
+    Print(dr);
 }
