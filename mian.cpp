@@ -19,10 +19,17 @@ Patryk Milkiewicz
 #include <windows.h>
 
 int main() {
-    Rain dr;
-    Rain dr3(15, 0, 0, { 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l'});
     
-    dr.Init();
+    Rain rain;
+    std::vector<Rain> raindrops;
+
+    rain.Init(raindrops); // Initialize raindrops once
+
+    while (true) {
+        for (auto& drop : raindrops) {
+            rain.Print(drop); // Print each raindrop
+        }
+    }
     
     
     /*

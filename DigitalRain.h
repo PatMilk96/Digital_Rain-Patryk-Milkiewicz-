@@ -27,12 +27,20 @@ public:
     Rain(const std::vector<char>&);
     Rain(int, int, const std::vector<char>&);
     Rain(int, int, int, const std::vector<char>&);
-    Rain(Rain&);
+    Rain(const Rain&);
+    
     void SetChars(const std::vector<char>&);
+    void SetY(int);
+    void SetX(int);
+    void SetArrP(int);
+    
     std::vector<char> GetChars() const { return chars; }
+    int GetX() const { return x; }
+    int GetY() const { return y; }
+    int GetArrP() const { return arrP; }
 
     void GoToXY(int, int) const;
-    void Init();
+    void Init(std::vector<Rain>&);
     void Print(Rain&);
 
 private:

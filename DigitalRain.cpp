@@ -41,10 +41,22 @@ Rain::~Rain() {
 }
 
 
+void Rain::SetY(int posY) {
+    y = posY;
+}
 
-Rain::Rain(Rain& dr) {
+void Rain::SetX(int posX) {
+    x = posX;
+}
+
+void Rain::SetArrP(int posA) {
+    arrP = posA;
+}
+
+Rain::Rain(const Rain& dr) {
     x = dr.x;
     y = dr.y;
+    arrP = dr.arrP;
     chars = dr.chars;
 }
 
@@ -66,24 +78,27 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
     return output;
 }
 
-void Rain::Init() {
-    Rain dr2(15, 15, 0, { 'a', 'b', 'c', 'd', 'e' });
-    Print(dr2);
-
-    //Here I want to send the drops to a sorting function
-    //that will iterate through a vector of objects, sending them 1 by one to the Print algo
+void Rain::Init(std::vector<Rain>& raindrops) {
+    raindrops.push_back(Rain(0, 0, 0, { 'a', 'b', 'c' }));
+    raindrops.push_back(Rain(5, 0, 0, { 'h', 'v', 'k', 'q', 'b' }));
+    raindrops.push_back(Rain(10, 0, 0, { 'i', 'o', 'm', 'e' }));
+    raindrops.push_back(Rain(15, 0, 0, { 'y', 'z', 's', 'x', 'u', 'g', 'a' }));
+    raindrops.push_back(Rain(20, 0, 0, { 'a', 'u', 'e', 'k', 'b', 'h' }));
+    raindrops.push_back(Rain(25, 0, 0, { 'g', 'b', 'h', 't', 'e', 't', 'x', 'r', 'q', 'l' }));
 }
 
 void Rain::Print(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
-    if (arrP == size(drop)) { arrP = 0; }
-    dr.GoToXY(15, y);
-    std::cout << drop[arrP];
-    dr.GoToXY(15, y - size(drop));
-    std::cout << ' ';
-    Sleep(150);
+    if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
+    dr.GoToXY(dr.GetX() , dr.GetY());
+    std::cout << drop[dr.GetArrP()];
 
-    y++;
-    arrP++;
-    Print(dr);
+    dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
+    std::cout << ' ';
+    
+    Sleep(50);  //Here I will add a GetSpeed() function and add a delay of whatever the speed is
+
+    dr.SetY(dr.GetY() + 1);  
+    dr.SetArrP(dr.GetArrP() + 1);
+  
 }
