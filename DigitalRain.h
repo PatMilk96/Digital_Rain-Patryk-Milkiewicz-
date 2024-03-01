@@ -46,7 +46,7 @@ public:
     void Print(Rain&);
 
     std::vector<char> GenerateRandomChars() {
-        int size = rand() % 9 + 6; // Random size between 6 and 14
+        int size = rand() % 15 + 9; // Random size between 9 and 24
         std::vector<char> randomChars(size);
 
         for (int i = 0; i < size; ++i) {

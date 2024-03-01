@@ -27,12 +27,11 @@ int main() {
     Sleep(1000);
     rain.Init(raindrops); // Initialize raindrops once
 
-
     while (true) {
         for (auto& drop : raindrops) {
             rain.Print(drop); // Print each raindrop
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
     
     

@@ -82,7 +82,7 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
 void Rain::Init(std::vector<Rain>& raindrops) {
     srand(time(0));
 
-    for (int x = 0; x <= 200; x += 4) {
+    for (int x = 0; x <= 1; x += 4) {
         std::vector<char> drop = GenerateRandomChars();
         raindrops.push_back(Rain(x, (rand() % 31), 0, drop));
     }
@@ -91,15 +91,23 @@ void Rain::Init(std::vector<Rain>& raindrops) {
 void Rain::Print(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
-    dr.GoToXY(dr.GetX() , dr.GetY());
-    std::cout << drop[dr.GetArrP()];
+    if (dr.GetY() == 48) {
+        dr.SetY(0);
+        /*dr.GoToXY(dr.GetX(), 0); //where dr.GetX() is I need a function to find a free spot
+        std::cout << drop[dr.GetArrP()];
+        dr.SetY(dr.GetY() + 1);
+        dr.SetArrP(dr.GetArrP() + 1)*/
+    }
+    else {
+        dr.GoToXY(dr.GetX(), dr.GetY());
+        std::cout << drop[dr.GetArrP()];
 
-    dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
-    std::cout << ' ';
-    
-      //Sleep function will not work here as it just delays everything
-    //The initial delay is my fastest speed, then I can slow down other selected droplets by skipping them.... not printing them
-    dr.SetY(dr.GetY() + 1);  
-    dr.SetArrP(dr.GetArrP() + 1);
+        dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
+        std::cout << ' ';
+
+        dr.SetY(dr.GetY() + 1);
+        dr.SetArrP(dr.GetArrP() + 1);
+    }
+
   
 }
