@@ -82,23 +82,21 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
 void Rain::Init(std::vector<Rain>& raindrops) {
     srand(time(0));
 
-    for (int x = 0; x <= 1; x += 4) {
+    for (int x = 0; x <= 220; x += 4) {
         std::vector<char> drop = GenerateRandomChars();
-        raindrops.push_back(Rain(x, (rand() % 31), 0, drop));
+        raindrops.push_back(Rain(x, (rand() % 35), 0, drop));
     }
 }
 
 void Rain::Print(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
-    if (dr.GetY() == 48) {
-        dr.SetY(0);
-        /*dr.GoToXY(dr.GetX(), 0); //where dr.GetX() is I need a function to find a free spot
-        std::cout << drop[dr.GetArrP()];
-        dr.SetY(dr.GetY() + 1);
-        dr.SetArrP(dr.GetArrP() + 1)*/
-    }
-    else {
+    /*if (dr.GetY() == 49 && dr.GetY() != ' ') {
+        dr.GoToXY(dr.GetX(), (49-x)); //where dr.GetX() is I need a function to find a free spot
+        std::cout << ' ';
+        x--;
+    }*/
+        int x = size(drop);
         dr.GoToXY(dr.GetX(), dr.GetY());
         std::cout << drop[dr.GetArrP()];
 
@@ -107,7 +105,5 @@ void Rain::Print(Rain& dr) {
 
         dr.SetY(dr.GetY() + 1);
         dr.SetArrP(dr.GetArrP() + 1);
-    }
-
   
 }
