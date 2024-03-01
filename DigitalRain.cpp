@@ -36,6 +36,7 @@ Rain::Rain(int posX, int posY, int posA, const std::vector<char>& ch) : x{ posX 
     count++;
 }
 
+
 Rain::~Rain() {
     count--;
 }
@@ -79,12 +80,12 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
 }
 
 void Rain::Init(std::vector<Rain>& raindrops) {
-    raindrops.push_back(Rain(0, 0, 0, { 'a', 'b', 'c' }));
-    raindrops.push_back(Rain(5, 0, 0, { 'h', 'v', 'k', 'q', 'b' }));
-    raindrops.push_back(Rain(10, 0, 0, { 'i', 'o', 'm', 'e' }));
-    raindrops.push_back(Rain(15, 0, 0, { 'y', 'z', 's', 'x', 'u', 'g', 'a' }));
-    raindrops.push_back(Rain(20, 0, 0, { 'a', 'u', 'e', 'k', 'b', 'h' }));
-    raindrops.push_back(Rain(25, 0, 0, { 'g', 'b', 'h', 't', 'e', 't', 'x', 'r', 'q', 'l' }));
+    srand(time(0));
+
+    for (int x = 0; x <= 200; x += 4) {
+        std::vector<char> drop = GenerateRandomChars();
+        raindrops.push_back(Rain(x, (rand() % 31), 0, drop));
+    }
 }
 
 void Rain::Print(Rain& dr) {
@@ -96,8 +97,8 @@ void Rain::Print(Rain& dr) {
     dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
     std::cout << ' ';
     
-    Sleep(50);  //Here I will add a GetSpeed() function and add a delay of whatever the speed is
-
+      //Sleep function will not work here as it just delays everything
+    //The initial delay is my fastest speed, then I can slow down other selected droplets by skipping them.... not printing them
     dr.SetY(dr.GetY() + 1);  
     dr.SetArrP(dr.GetArrP() + 1);
   

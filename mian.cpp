@@ -18,17 +18,21 @@ Patryk Milkiewicz
 #include "DigitalRain.h"
 #include <windows.h>
 
+
 int main() {
+    system("pause");
     
     Rain rain;
     std::vector<Rain> raindrops;
-
+    Sleep(1000);
     rain.Init(raindrops); // Initialize raindrops once
+
 
     while (true) {
         for (auto& drop : raindrops) {
             rain.Print(drop); // Print each raindrop
         }
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
     
     

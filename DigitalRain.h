@@ -17,6 +17,8 @@ Patryk Milkiewicz
 #include <iostream>
 #include <vector>
 #include <string>
+#include <chrono>
+#include <thread>
 
 #define VERBOSE 1
 
@@ -42,6 +44,17 @@ public:
     void GoToXY(int, int) const;
     void Init(std::vector<Rain>&);
     void Print(Rain&);
+
+    std::vector<char> GenerateRandomChars() {
+        int size = rand() % 9 + 6; // Random size between 6 and 14
+        std::vector<char> randomChars(size);
+
+        for (int i = 0; i < size; ++i) {
+            randomChars[i] = 'a' + rand() % 26; // Random lowercase letter
+        }
+
+        return randomChars;
+    }
 
 private:
     std::vector<char> chars;
