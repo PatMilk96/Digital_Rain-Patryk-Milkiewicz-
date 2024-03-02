@@ -24,10 +24,10 @@ int main() {
     
     Rain rain;
     std::vector<Rain> raindrops;
-    Sleep(1000);
+    //Sleep(1000);
     rain.Init(raindrops); // Initialize raindrops once
 
-    while (true) {
+    while (1) {
         for (auto& drop : raindrops) {
             rain.Print(drop); // Print each raindrop
         }

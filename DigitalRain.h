@@ -50,7 +50,7 @@ public:
         std::vector<char> randomChars(size);
 
         for (int i = 0; i < size; ++i) {
-            randomChars[i] = 'a' + rand() % 26; // Random lowercase letter
+            randomChars[i] = 'a' + rand() % 26;
         }
 
         return randomChars;
