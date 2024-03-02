@@ -20,11 +20,11 @@ Patryk Milkiewicz
 
 int Rain::count = 0;
 
-Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, chars { 'a', 'b', 'c', 'd', 'e' } {
+Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 },  chars { 'a', 'b', 'c', 'd', 'e' } {
     count++;
 }
 
-Rain::Rain(const std::vector<char>& ch) : x{ 0 }, y{ 0 }, arrP{ 0 }, chars { ch } {
+Rain::Rain(const std::vector<char>& ch) : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 }, chars { ch } {
     count++;
 }
 
@@ -36,6 +36,9 @@ Rain::Rain(int posX, int posY, int posA, const std::vector<char>& ch) : x{ posX 
     count++;
 }
 
+Rain::Rain(int posX, int posY, int posA, int s, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, speed{ s }, chars { ch } {
+    count++;
+}
 
 Rain::~Rain() {
     count--;
@@ -54,10 +57,15 @@ void Rain::SetArrP(int posA) {
     arrP = posA;
 }
 
+void Rain::SetSpeed(int s) {
+    speed = s;
+}
+
 Rain::Rain(const Rain& dr) {
     x = dr.x;
     y = dr.y;
     arrP = dr.arrP;
+    speed = dr.speed;
     chars = dr.chars;
 }
 
@@ -79,40 +87,70 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
     return output;
 }
 
-void Rain::Init(std::vector<Rain>& raindrops) {
+
+/*##############################################################################*/
+
+
+void Rain::BottomReached(Rain& dr) {
+    std::vector<char> drop = dr.GetChars();
+    int x = size(drop);
+    dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
+    std::cout << ' ';
+    drop.pop_back();
+    dr.SetChars(drop);
+    if (size(drop) == 0) {
+        dr.SetChars(GenerateRandomChars());
+        dr.SetY(0);
+    }
+}
+
+void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
     srand(time(0));
 
     for (int x = 0; x <= 200; x += 4) {
         std::vector<char> drop = GenerateRandomChars();
-        raindrops.push_back(Rain(x, (rand() % 35), 0, drop));
+        int s = (rand() % 8);
+        raindrops.push_back(Rain(x, 0/*(rand() % 48) */ , 0, s, drop));
+        speeds.push_back(s);
     }
 }
 
-void Rain::Print(Rain& dr) {
+void Rain::Print(Rain& dr, std::vector<int> speeds) {
+    static int i = 0;
     std::vector<char> drop = dr.GetChars();
+    static std::vector<int> CurrentSpeed;
+    static int SpeedFlag = 0;
+    
+    if(SpeedFlag == 0){ 
+        CurrentSpeed = speeds;
+        SpeedFlag = 1;
+    }
+
+    
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
+    
+    if (dr.GetY() != 49) {
+        if (CurrentSpeed[i] == 0) {
+            dr.GoToXY(dr.GetX(), dr.GetY());
+            std::cout << drop[dr.GetArrP()];
 
-    if (dr.GetY() != 48) {
-        dr.GoToXY(dr.GetX(), dr.GetY());
-        std::cout << drop[dr.GetArrP()];
+            dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
+            std::cout << ' ';
 
-        dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
-        std::cout << ' ';
+            dr.SetY(dr.GetY() + 1);
+            dr.SetArrP(dr.GetArrP() + 1);
+            int x = size(drop);
+            CurrentSpeed[i] = dr.GetSpeed();
+        }
+        else if(CurrentSpeed[i] > 0) {
+            CurrentSpeed[i]--;
+        }
 
-        dr.SetY(dr.GetY() + 1);
-        dr.SetArrP(dr.GetArrP() + 1);
-        int x = size(drop);
     }
     else {
-        int x = size(drop);
-        dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
-        std::cout << ' ';
-        drop.pop_back();
-        dr.SetChars(drop);
-        if (size(drop) == 0) {
-            dr.SetChars(GenerateRandomChars());
-            dr.SetY(0);
-        }
+        BottomReached(dr);
     }
-  
+    
+    i++;
+    if (size(CurrentSpeed) == 51) { i = 0; }
 }

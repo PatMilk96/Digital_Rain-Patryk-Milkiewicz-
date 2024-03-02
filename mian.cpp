@@ -24,14 +24,20 @@ int main() {
     
     Rain rain;
     std::vector<Rain> raindrops;
-    //Sleep(1000);
-    rain.Init(raindrops); // Initialize raindrops once
+    std::vector<int> speeds;
+    rain.Init(raindrops, speeds); // Initialize raindrops once
+
+    for (auto& drop : raindrops) {
+        rain.Print(drop, speeds); // Print each raindrop
+    }
+
+    
 
     while (1) {
         for (auto& drop : raindrops) {
-            rain.Print(drop); // Print each raindrop
+            rain.Print(drop, speeds); // Print each raindrop
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
     
     

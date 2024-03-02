@@ -29,28 +29,32 @@ public:
     Rain(const std::vector<char>&);
     Rain(int, int, const std::vector<char>&);
     Rain(int, int, int, const std::vector<char>&);
+    Rain(int, int, int, int, const std::vector<char>&);
     Rain(const Rain&);
     
     void SetChars(const std::vector<char>&);
     void SetY(int);
     void SetX(int);
     void SetArrP(int);
+    void SetSpeed(int);
     
     std::vector<char> GetChars() const { return chars; }
     int GetX() const { return x; }
     int GetY() const { return y; }
     int GetArrP() const { return arrP; }
+    int GetSpeed() const { return speed; }
 
     void GoToXY(int, int) const;
-    void Init(std::vector<Rain>&);
-    void Print(Rain&);
+    void Init(std::vector<Rain>&, std::vector<int>&);
+    void Print(Rain&, std::vector<int>);
+    void BottomReached(Rain&);
 
     std::vector<char> GenerateRandomChars() {
-        int size = rand() % 15 + 9; // Random size between 9 and 24
+        int size = rand() % 20 + 14; // Random size between 14 and 34
         std::vector<char> randomChars(size);
 
         for (int i = 0; i < size; ++i) {
-            randomChars[i] = 'a' + rand() % 26;
+            randomChars[i] = 'a' + rand() % 26; // Random lowercase letter
         }
 
         return randomChars;
@@ -61,6 +65,7 @@ private:
     int arrP;
     int x;
     int y;
+    int speed;
 
     static int count;
 };
