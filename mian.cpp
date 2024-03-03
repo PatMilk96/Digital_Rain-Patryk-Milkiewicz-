@@ -27,17 +27,13 @@ int main() {
     std::vector<int> speeds;
     rain.Init(raindrops, speeds); // Initialize raindrops once
 
-    for (auto& drop : raindrops) {
-        rain.Print(drop, speeds); // Print each raindrop
-    }
-
+    system("Color 0A");
     
-
     while (1) {
         for (auto& drop : raindrops) {
             rain.Print(drop, speeds); // Print each raindrop
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
     
     

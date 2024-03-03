@@ -18,6 +18,7 @@ Patryk Milkiewicz
 #include <windows.h>
 #include "DigitalRain.h"
 
+
 int Rain::count = 0;
 
 Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 },  chars { 'a', 'b', 'c', 'd', 'e' } {
@@ -107,10 +108,10 @@ void Rain::BottomReached(Rain& dr) {
 void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
     srand(time(0));
 
-    for (int x = 0; x <= 200; x += 4) {
+    for (int x = 0; x <= 209; x += 3) {
         std::vector<char> drop = GenerateRandomChars();
-        int s = (rand() % 8);
-        raindrops.push_back(Rain(x, 0/*(rand() % 48) */ , 0, s, drop));
+        int s = (rand() % 15);
+        raindrops.push_back(Rain(x, (rand() % 48) , 0, s, drop));
         speeds.push_back(s);
     }
 }
@@ -130,7 +131,7 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
     
     if (dr.GetY() != 49) {
-        if (CurrentSpeed[i] == 0) {
+        //if (CurrentSpeed[i] == 0) {
             dr.GoToXY(dr.GetX(), dr.GetY());
             std::cout << drop[dr.GetArrP()];
 
@@ -141,16 +142,20 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
             dr.SetArrP(dr.GetArrP() + 1);
             int x = size(drop);
             CurrentSpeed[i] = dr.GetSpeed();
-        }
-        else if(CurrentSpeed[i] > 0) {
-            CurrentSpeed[i]--;
-        }
+        //}
+        //else if(CurrentSpeed[i] > 0) {
+            //CurrentSpeed[i]--;
+        //}
 
     }
     else {
-        BottomReached(dr);
-    }
+        //if (CurrentSpeed[i] == 0) {
+            BottomReached(dr);
+            //CurrentSpeed[i] = dr.GetSpeed();
+        }
+        //else if (CurrentSpeed[i] > 0) { CurrentSpeed[i]--; }
+    //}
     
-    i++;
-    if (size(CurrentSpeed) == 51) { i = 0; }
+    //i++;
+    //if (size(CurrentSpeed) == 51) { i = 0; }
 }
