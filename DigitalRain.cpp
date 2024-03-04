@@ -68,6 +68,7 @@ Rain::Rain(const Rain& dr) {
     arrP = dr.arrP;
     speed = dr.speed;
     chars = dr.chars;
+    count++;
 }
 
 void Rain::SetChars(const std::vector<char>& ch) {
@@ -103,6 +104,8 @@ void Rain::BottomReached(Rain& dr) {
         dr.SetChars(GenerateRandomChars());
         dr.SetY(0);
     }
+
+    //Go to a new function here and start printing...?
 }
 
 void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
@@ -122,7 +125,7 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
     static std::vector<int> CurrentSpeed;
     static int SpeedFlag = 0;
     
-    if(SpeedFlag == 0){ 
+    if (SpeedFlag == 0) {
         CurrentSpeed = speeds;
         SpeedFlag = 1;
     }
@@ -130,8 +133,8 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
     
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
     
-    if (dr.GetY() != 49) {
-        //if (CurrentSpeed[i] == 0) {
+    if (dr.GetY() != 50) {
+        if (CurrentSpeed[i] == 0) {
             dr.GoToXY(dr.GetX(), dr.GetY());
             std::cout << drop[dr.GetArrP()];
 
@@ -142,20 +145,16 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
             dr.SetArrP(dr.GetArrP() + 1);
             int x = size(drop);
             CurrentSpeed[i] = dr.GetSpeed();
-        //}
-        //else if(CurrentSpeed[i] > 0) {
-            //CurrentSpeed[i]--;
-        //}
+        }
+        else{
+            CurrentSpeed[i]--;
+        }
 
     }
     else {
-        //if (CurrentSpeed[i] == 0) {
-            BottomReached(dr);
-            //CurrentSpeed[i] = dr.GetSpeed();
-        }
-        //else if (CurrentSpeed[i] > 0) { CurrentSpeed[i]--; }
-    //}
+        BottomReached(dr);
+    }
     
-    //i++;
-    //if (size(CurrentSpeed) == 51) { i = 0; }
+    if (size(CurrentSpeed) == 70) { i = 0; }
+    
 }
