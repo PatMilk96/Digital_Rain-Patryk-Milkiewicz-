@@ -97,6 +97,8 @@ void Rain::BottomReached(Rain& dr) {
         dr.SetY(0);
 
     }
+
+    //Go to a new function here and start printing...?
 }
 
 void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
