@@ -20,20 +20,22 @@ Patryk Milkiewicz
 
 
 int main() {
-    system("pause");
-    
     Rain rain;
     std::vector<Rain> raindrops;
     std::vector<int> speeds;
     rain.Init(raindrops, speeds); // Initialize raindrops once
-
     system("Color 0A");
+
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+    MoveWindow(console, r.left, r.top, 1570, 825, TRUE);
     
     while (1) {
         for (auto& drop : raindrops) {
             rain.Print(drop, speeds); // Print each raindrop
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(40));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
     
     
