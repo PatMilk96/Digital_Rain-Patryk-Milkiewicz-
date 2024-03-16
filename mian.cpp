@@ -27,18 +27,13 @@ int main() {
     rain.Init(raindrops, speeds); // Initialize raindrops once
     system("Color 0A");
 
-    HWND console = GetConsoleWindow();
-    RECT r;
-    GetWindowRect(console, &r);
-    MoveWindow(console, r.left, r.top, 1700, 1300, TRUE);
-    
+
     while (1) {
         for (auto& drop : raindrops) {
             rain.Print(drop, speeds); // Print each raindrop
         }
-        //std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
-  
+    
     
     /*
     int i = 0;

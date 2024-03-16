@@ -102,6 +102,37 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
 /*##############################################################################*/
 
 
+std::vector<char> Rain::GenerateRandomChars() {
+    int size = rand() % 35 + 20; // Random size between 20 and 55
+    std::vector<char> randomChars(size);
+
+    for (int i = 0; i < size; ++i) {
+        randomChars[i] = 'a' + rand() % 26; // Random lowercase letter
+    }
+
+    return randomChars;
+}
+
+int Rain::ScreenSize(int x) {
+    const HWND hDesktop = GetDesktopWindow();
+    HWND console = GetConsoleWindow();
+    RECT r;
+    GetWindowRect(console, &r);
+    if (x == 0) {
+        int baseWidth = r.right - r.left;
+        //current config we have 70 objects and the screen size it fits in is width: 1714 height: 1170........meaning........ for width 1714 / 70 = 24.48571428571...... so for every object I need to move by this much 24.48571428571 ~ 25 pixels......... or I have 25 pixels to assign to each object
+        int width = ((baseWidth / 25) * 3); //this calculation return the amount of objects that I can have on the screen given the screen size
+        return width;
+    }
+    else if (x == 1) {
+        //same as above: 1170/49 = 23.87 ~ 24
+        int baseHeight = r.bottom - r.top;
+        int height = ((baseHeight / 84) * 5);
+        return height;
+    }
+}
+
+
 void Rain::BottomReached(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
     int x = size(drop);
@@ -113,38 +144,40 @@ void Rain::BottomReached(Rain& dr) {
         dr.SetChars(GenerateRandomChars());
         dr.SetY(0);
     }
-
-    //Go to a new function here and start printing...?
 }
 
 void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
     srand(time(0));
     int v = 0;
+    //int Rain::ScreenSize(int)   this function will accept an int, will be either 1 or 0. If 1 then return width, if 0 return length
+    int width = ScreenSize(0);
+    int height = ScreenSize(1);
 
-    for (int x = 0; x <= 209; x += 3) {
+    for (int x = 0; x <= width; x += 2) {
         std::vector<char> drop = GenerateRandomChars();
-        int s = (rand() % 500 + 200);
-        raindrops.push_back(Rain(x, (rand() % 48), 0, s, v, drop));
+        int s = (rand() % 100 + 75);
+        raindrops.push_back(Rain(x, (rand() % height), 0, s, v, drop));
         speeds.push_back(s);
         v++;
     }
 }
 
 void Rain::Print(Rain& dr, std::vector<int> speeds) {
-    static int i = 0;
     std::vector<char> drop = dr.GetChars();
     static std::vector<int> SpeedsCopy;
     static int SpeedFlag = 0;
+    static int height;
 
     if (SpeedFlag == 0) {
         SpeedsCopy = speeds;
+        height = ScreenSize(1);
         SpeedFlag = 1;
     }
 
 
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
 
-    if (dr.GetY() != 70) {
+    if (dr.GetY() != height) {
         if (dr.GetSpeed() == 0) {
             dr.GoToXY(dr.GetX(), dr.GetY());
             std::cout << drop[dr.GetArrP()];
@@ -166,7 +199,7 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
             BottomReached(dr);
             dr.SetSpeed(SpeedsCopy[dr.GetVectorPos()]);
             if (size(drop) == 1) {
-                dr.SetSpeed(rand() % 500 + 200);
+                dr.SetSpeed(rand() % 100 + 75);
                 SpeedsCopy[dr.GetVectorPos()] = dr.GetSpeed();
             }
         }

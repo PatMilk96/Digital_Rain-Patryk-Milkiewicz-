@@ -52,16 +52,8 @@ public:
     void Print(Rain&, std::vector<int>);
     void BottomReached(Rain&);
 
-    std::vector<char> GenerateRandomChars() {
-        int size = rand() % 35 + 20; // Random size between 14 and 34
-        std::vector<char> randomChars(size);
-
-        for (int i = 0; i < size; ++i) {
-            randomChars[i] = 'a' + rand() % 26; // Random lowercase letter
-        }
-
-        return randomChars;
-    }
+    std::vector<char> GenerateRandomChars();
+    int ScreenSize(int);
 
 private:
     std::vector<char> chars;
