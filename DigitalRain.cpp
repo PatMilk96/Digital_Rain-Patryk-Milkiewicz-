@@ -61,6 +61,7 @@ Rain::Rain(const Rain& dr) {
     speed = dr.speed;
     chars = dr.chars;
     vectorPos = dr.vectorPos;
+    count++;
 }
 
 void Rain::SetChars(const std::vector<char>& ch) {
@@ -97,8 +98,6 @@ void Rain::BottomReached(Rain& dr) {
         dr.SetY(0);
 
     }
-
-    //Go to a new function here and start printing...?
 }
 
 void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
