@@ -20,6 +20,7 @@ Patryk Milkiewicz
 
 
 int main() {
+    system("pause");
     Rain rain;
     std::vector<Rain> raindrops;
     std::vector<int> speeds;
@@ -29,7 +30,7 @@ int main() {
     HWND console = GetConsoleWindow();
     RECT r;
     GetWindowRect(console, &r);
-    MoveWindow(console, r.left, r.top, 1570, 825, TRUE);
+    MoveWindow(console, r.left, r.top, 1700, 1300, TRUE);
     
     while (1) {
         for (auto& drop : raindrops) {
@@ -37,7 +38,7 @@ int main() {
         }
         //std::this_thread::sleep_for(std::chrono::milliseconds(40));
     }
-    
+  
     
     /*
     int i = 0;

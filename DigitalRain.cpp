@@ -21,11 +21,27 @@ Patryk Milkiewicz
 
 int Rain::count = 0;
 
-Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 }, vectorPos{ 0 },  chars { 'a', 'b', 'c', 'd', 'e' } {
+Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 }, vectorPos{ 0 }, chars{ 'a', 'b', 'c', 'd', 'e' } {
     count++;
 }
 
-Rain::Rain(int posX, int posY, int posA, int s, int vectPos, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, speed{ s }, vectorPos{ vectPos }, chars { ch } {
+Rain::Rain(const std::vector<char>& ch) : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 }, chars{ ch } {
+    count++;
+}
+
+Rain::Rain(int posX, int posY, const std::vector<char>& ch) : x{ posX }, y{ posY }, chars{ ch } {
+    count++;
+}
+
+Rain::Rain(int posX, int posY, int posA, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, chars{ ch } {
+    count++;
+}
+
+Rain::Rain(int posX, int posY, int posA, int s, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, speed{ s }, chars{ ch } {
+    count++;
+}
+
+Rain::Rain(int posX, int posY, int posA, int s, int vectPos, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, speed{ s }, vectorPos{ vectPos }, chars{ ch } {
     count++;
 }
 
@@ -54,6 +70,10 @@ void Rain::SetVectorPos(int v) {
     vectorPos = v;
 }
 
+void Rain::SetChars(const std::vector<char>& ch) {
+    chars = ch;
+}
+
 Rain::Rain(const Rain& dr) {
     x = dr.x;
     y = dr.y;
@@ -62,10 +82,6 @@ Rain::Rain(const Rain& dr) {
     chars = dr.chars;
     vectorPos = dr.vectorPos;
     count++;
-}
-
-void Rain::SetChars(const std::vector<char>& ch) {
-    chars = ch;
 }
 
 void Rain::GoToXY(int x, int y) const {
@@ -96,17 +112,19 @@ void Rain::BottomReached(Rain& dr) {
     if (size(drop) == 0) {
         dr.SetChars(GenerateRandomChars());
         dr.SetY(0);
-
     }
+
+    //Go to a new function here and start printing...?
 }
 
 void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
     srand(time(0));
     int v = 0;
+
     for (int x = 0; x <= 209; x += 3) {
         std::vector<char> drop = GenerateRandomChars();
         int s = (rand() % 500 + 200);
-        raindrops.push_back(Rain(x, (rand() % 48) , 0, s, v, drop));
+        raindrops.push_back(Rain(x, (rand() % 48), 0, s, v, drop));
         speeds.push_back(s);
         v++;
     }
@@ -117,16 +135,16 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
     std::vector<char> drop = dr.GetChars();
     static std::vector<int> SpeedsCopy;
     static int SpeedFlag = 0;
-    
-    if(SpeedFlag == 0){ 
+
+    if (SpeedFlag == 0) {
         SpeedsCopy = speeds;
         SpeedFlag = 1;
     }
 
-    
+
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
-    
-    if (dr.GetY() != 49) {
+
+    if (dr.GetY() != 70) {
         if (dr.GetSpeed() == 0) {
             dr.GoToXY(dr.GetX(), dr.GetY());
             std::cout << drop[dr.GetArrP()];
@@ -138,8 +156,8 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
             dr.SetArrP(dr.GetArrP() + 1);
             dr.SetSpeed(SpeedsCopy[dr.GetVectorPos()]);
         }
-        else if(dr.GetSpeed() > 0) {
-            dr.SetSpeed((dr.GetSpeed()-1));
+        else if (dr.GetSpeed() > 0) {
+            dr.SetSpeed((dr.GetSpeed() - 1));
         }
 
     }
@@ -157,6 +175,8 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
         }
     }
 }
+
+
 
 
 //copy speeds in another vector and do not change them, this vector will only be used to copy the speed into the droplet object, I will decrement the droplets speed in order to avoid my previous
