@@ -121,7 +121,7 @@ int Rain::ScreenSize(int x) {
     if (x == 0) {
         int baseWidth = r.right - r.left;
         //current config we have 70 objects and the screen size it fits in is width: 1714 height: 1170........meaning........ for width 1714 / 70 = 24.48571428571...... so for every object I need to move by this much 24.48571428571 ~ 25 pixels......... or I have 25 pixels to assign to each object
-        int width = ((baseWidth / 25) * 3); //this calculation return the amount of objects that I can have on the screen given the screen size
+        int width = ((baseWidth / 23) * 3); //this calculation return the amount of objects that I can have on the screen given the screen size
         return width;
     }
     else if (x == 1) {
