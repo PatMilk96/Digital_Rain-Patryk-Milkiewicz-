@@ -26,14 +26,11 @@ class Rain {
 public:
     Rain();
     ~Rain();
-    Rain(const std::vector<char>&);
-    Rain(int, int, const std::vector<char>&);
-    Rain(int, int, int, const std::vector<char>&);
-    Rain(int, int, int, int, const std::vector<char>&);
     Rain(int, int, int, int, int, const std::vector<char>&);
     Rain(const Rain&);
     
     void SetChars(const std::vector<char>&);
+    void SetSpeeds(const std::vector<int>&);
     void SetY(int);
     void SetX(int);
     void SetArrP(int);
@@ -41,6 +38,7 @@ public:
     void SetVectorPos(int);
     
     std::vector<char> GetChars() const { return chars; }
+    std::vector<int> GetSpeeds() const { return speeds; }
     int GetX() const { return x; }
     int GetY() const { return y; }
     int GetArrP() const { return arrP; }
@@ -48,20 +46,23 @@ public:
     int GetVectorPos() const { return vectorPos; }
 
     void GoToXY(int, int) const;
-    void Init(std::vector<Rain>&, std::vector<int>&);
-    void Print(Rain&, std::vector<int>);
+    void Init(std::vector<Rain>&);
+    void Print(Rain&);
     void BottomReached(Rain&);
 
     std::vector<char> GenerateRandomChars();
     int ScreenSize(int);
+    int ReturnRand(int);
 
 private:
     std::vector<char> chars;
+    std::vector<int> speeds;
     int arrP;
     int x;
     int y;
     int speed;
     int vectorPos;
+
 
     static int count;
 };

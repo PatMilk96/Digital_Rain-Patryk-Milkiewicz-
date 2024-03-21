@@ -17,22 +17,24 @@ Patryk Milkiewicz
 #include <algorithm>
 #include "DigitalRain.h"
 #include <windows.h>
+#include <math.h>
 
 
 int main() {
     system("pause");
+    std::system("CLS");
     Rain rain;
     std::vector<Rain> raindrops;
-    std::vector<int> speeds;
-    rain.Init(raindrops, speeds); // Initialize raindrops once
+
+    rain.Init(raindrops); // Initialize raindrops once
     system("Color 0A");
-
-
     while (1) {
         for (auto& drop : raindrops) {
-            rain.Print(drop, speeds); // Print each raindrop
+            rain.Print(drop); // Print each raindrop
         }
     }
+    
+
     
     
     /*

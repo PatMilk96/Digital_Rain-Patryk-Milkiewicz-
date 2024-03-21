@@ -25,22 +25,6 @@ Rain::Rain() : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 }, vectorPos{ 0 }, chars{ 'a'
     count++;
 }
 
-Rain::Rain(const std::vector<char>& ch) : x{ 0 }, y{ 0 }, arrP{ 0 }, speed{ 0 }, chars{ ch } {
-    count++;
-}
-
-Rain::Rain(int posX, int posY, const std::vector<char>& ch) : x{ posX }, y{ posY }, chars{ ch } {
-    count++;
-}
-
-Rain::Rain(int posX, int posY, int posA, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, chars{ ch } {
-    count++;
-}
-
-Rain::Rain(int posX, int posY, int posA, int s, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, speed{ s }, chars{ ch } {
-    count++;
-}
-
 Rain::Rain(int posX, int posY, int posA, int s, int vectPos, const std::vector<char>& ch) : x{ posX }, y{ posY }, arrP{ posA }, speed{ s }, vectorPos{ vectPos }, chars{ ch } {
     count++;
 }
@@ -102,40 +86,69 @@ std::ostream& operator<<(std::ostream& output, const Rain& dr) {
 /*##############################################################################*/
 
 
+void Rain::SetSpeeds(const std::vector<int>& sp) {
+    int width = ScreenSize(0);
+    width = width / 2;
+    int sp1, sp2;
+
+    sp1 = (-9 * width) + 1554;
+    sp2 = (-6.33 * width) + 1038;
+
+
+    for (int i = 0; i < width; ++i) {
+        speeds.push_back(rand() % sp1 + sp2);
+    }
+}
+
 std::vector<char> Rain::GenerateRandomChars() {
-    int size = rand() % 35 + 20; // Random size between 20 and 55
+
+    int size = rand() % int(ScreenSize(1) * 0.7) + int(ScreenSize(1) * 0.4); //getting the appropriate size for the screen
     std::vector<char> randomChars(size);
 
     for (int i = 0; i < size; ++i) {
-        randomChars[i] = 'a' + rand() % 26; // Random lowercase letter
+        randomChars[i] = 'a' + rand() % 26;
     }
 
     return randomChars;
 }
 
+
 int Rain::ScreenSize(int x) {
-    const HWND hDesktop = GetDesktopWindow();
-    HWND console = GetConsoleWindow();
-    RECT r;
-    GetWindowRect(console, &r);
+    //https://learn.microsoft.com/en-us/archive/msdn-technet-forums/0de248af-3497-4537-bb41-6d129b04fb27
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO consolesize;
+    GetConsoleScreenBufferInfo(hConsole, &consolesize);
+
+    int consoleWidth = consolesize.srWindow.Right - consolesize.srWindow.Left + 1;
+    int consoleHeight = consolesize.srWindow.Bottom - consolesize.srWindow.Top + 1;
+
     if (x == 0) {
-        int baseWidth = r.right - r.left;
-        //current config we have 70 objects and the screen size it fits in is width: 1714 height: 1170........meaning........ for width 1714 / 70 = 24.48571428571...... so for every object I need to move by this much 24.48571428571 ~ 25 pixels......... or I have 25 pixels to assign to each object
-        int width = ((baseWidth / 23) * 3); //this calculation return the amount of objects that I can have on the screen given the screen size
-        return width;
+        return consoleWidth;
     }
     else if (x == 1) {
-        //same as above: 1170/49 = 23.87 ~ 24
-        int baseHeight = r.bottom - r.top;
-        int height = ((baseHeight / 84) * 5);
-        return height;
+        return consoleHeight;
     }
+    return 0;
 }
 
+int Rain::ReturnRand(int x) {
+    int width = ScreenSize(0);
+    width = width / 2;
+    int rand=0;
+    
+
+    if (x == 0) {
+        rand = int(-9 * width) + 1650;
+    }
+    else if (x == 1) {
+        rand = int(-6.33 * width) + 1000;
+    }
+    
+    return rand;
+}
 
 void Rain::BottomReached(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
-    int x = size(drop);
     dr.GoToXY(dr.GetX(), (dr.GetY() - size(drop)));
     std::cout << ' ';
     drop.pop_back();
@@ -146,33 +159,36 @@ void Rain::BottomReached(Rain& dr) {
     }
 }
 
-void Rain::Init(std::vector<Rain>& raindrops, std::vector<int>& speeds) {
+void Rain::Init(std::vector<Rain>& raindrops) {
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+    GetConsoleCursorInfo(consoleHandle, &cursorInfo);
+    cursorInfo.bVisible = FALSE;
+    SetConsoleCursorInfo(consoleHandle, &cursorInfo);
+
     srand(time(0));
+    SetSpeeds(speeds);
     int v = 0;
-    //int Rain::ScreenSize(int)   this function will accept an int, will be either 1 or 0. If 1 then return width, if 0 return length
     int width = ScreenSize(0);
     int height = ScreenSize(1);
+    
 
-    for (int x = 0; x <= width; x += 2) {
-        std::vector<char> drop = GenerateRandomChars();
-        int s = (rand() % 100 + 75);
-        raindrops.push_back(Rain(x, (rand() % height), 0, s, v, drop));
-        speeds.push_back(s);
-        v++;
+    for (int x = 1; x <= width; x += 3) {
+        if ((x+4) == width) { return; }
+        else {
+            std::vector<char> drop = GenerateRandomChars(); 
+            int s = speeds[v];
+            raindrops.push_back(Rain(x, (rand() % height), 0, s, v, drop));
+            v++;
+        }
     }
 }
 
-void Rain::Print(Rain& dr, std::vector<int> speeds) {
+void Rain::Print(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
-    static std::vector<int> SpeedsCopy;
+    static std::vector<int> SpeedsCopy = GetSpeeds();
     static int SpeedFlag = 0;
-    static int height;
-
-    if (SpeedFlag == 0) {
-        SpeedsCopy = speeds;
-        height = ScreenSize(1);
-        SpeedFlag = 1;
-    }
+    static int height = ScreenSize(1);
 
 
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
@@ -199,7 +215,7 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
             BottomReached(dr);
             dr.SetSpeed(SpeedsCopy[dr.GetVectorPos()]);
             if (size(drop) == 1) {
-                dr.SetSpeed(rand() % 100 + 75);
+                dr.SetSpeed(rand() % ReturnRand(0) + ReturnRand(0));
                 SpeedsCopy[dr.GetVectorPos()] = dr.GetSpeed();
             }
         }
@@ -209,7 +225,7 @@ void Rain::Print(Rain& dr, std::vector<int> speeds) {
     }
 }
 
-
+// need a speed function to set the speed according to screen size
 
 
 //copy speeds in another vector and do not change them, this vector will only be used to copy the speed into the droplet object, I will decrement the droplets speed in order to avoid my previous
