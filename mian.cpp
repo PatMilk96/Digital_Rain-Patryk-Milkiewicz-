@@ -1,11 +1,11 @@
 /*
-    ______
-   /\_____\
-  _\ \__/_/_
+   ______
+  /\_____\
+ _\ \__/_/_
 /\_\ \_____\
 \ \ \/ / / /
-  \ \/ /\/ /
-   \/_/\/_/
+ \ \/ /\/ /
+  \/_/\/_/
 
 Patryk Milkiewicz
 19/02/2024
@@ -22,6 +22,7 @@ Patryk Milkiewicz
 
 int main() {
     system("pause");
+    std::cout << "Please adjust the window to your desired size";
     std::system("CLS");
     Rain rain;
     std::vector<Rain> raindrops;

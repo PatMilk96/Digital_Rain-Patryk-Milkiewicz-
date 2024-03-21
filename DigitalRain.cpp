@@ -102,7 +102,7 @@ void Rain::SetSpeeds(const std::vector<int>& sp) {
 
 std::vector<char> Rain::GenerateRandomChars() {
 
-    int size = rand() % int(ScreenSize(1) * 0.7) + int(ScreenSize(1) * 0.4); //getting the appropriate size for the screen
+    int size = rand() % int(ScreenSize(1) * 0.7) + int(ScreenSize(1) * 0.3); //getting the appropriate size for the screen
     std::vector<char> randomChars(size);
 
     for (int i = 0; i < size; ++i) {
@@ -118,7 +118,7 @@ int Rain::ScreenSize(int x) {
     CONSOLE_SCREEN_BUFFER_INFO consolesize;
     GetConsoleScreenBufferInfo(hConsole, &consolesize);
 
-    int consoleWidth = consolesize.srWindow.Right - consolesize.srWindow.Left + 1;
+    int consoleWidth = consolesize.srWindow.Right - consolesize.srWindow.Left ;
     int consoleHeight = consolesize.srWindow.Bottom - consolesize.srWindow.Top + 1;
 
     if (x == 0) {
@@ -140,7 +140,7 @@ int Rain::ReturnRand(int x) {
         rand = int(-9 * width) + 1650;
     }
     else if (x == 1) {
-        rand = int(-6.33 * width) + 1000;
+        rand = int(-6.33 * width) + 900;
     }
     
     return rand;
@@ -187,7 +187,12 @@ void Rain::Print(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
     static std::vector<int> SpeedsCopy = GetSpeeds();
     static int SpeedFlag = 0;
-    static int height = ScreenSize(1);
+    static int height;
+
+    if (SpeedFlag == 0) {
+        height = ScreenSize(1);
+        SpeedFlag = 1;
+    }
 
 
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
