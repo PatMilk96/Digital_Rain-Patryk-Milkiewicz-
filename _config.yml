@@ -1,0 +1,9 @@
+# Site settings
+title: Digital Rain C++ Project Blog
+author:
+  name: Patryk Milkiewicz
+  email: g00397265@atu.ie
+description: "Digital Rain"
+
+#Build settings
+remote_theme: jekyll/minima
