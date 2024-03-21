@@ -34,33 +34,35 @@ int main() {
             rain.Print(drop);
         }
     }
-  
-
-    /*
-    The original algorithm
-    Rain dr;
-    std::vector<char> test = { '1','2','3', '4', '5', '6', '7', '8','9', '1', '2', '3', '4', '5' };
-    int i = 0;
-    int j = 0;
-    int x = size(test);
-
-    while (1) {
-        if (j == size(test)) { j = 0; }
-
-        dr.GoToXY(0, i);
-
-        std::cout << test[j];
-
-        dr.GoToXY(0, i - x);
-
-        std::cout << ' ';
-
-        Sleep(75);
-
-        i++;
-        j++;
-    }
-    */
 
     return 0;
 }
+
+
+
+
+/*
+The original algorithm
+Rain dr;
+std::vector<char> test = { '1','2','3', '4', '5', '6', '7', '8','9', '1', '2', '3', '4', '5' };
+int i = 0;
+int j = 0;
+int x = size(test);
+
+while (1) {
+    if (j == size(test)) { j = 0; }
+
+    dr.GoToXY(0, i);
+
+    std::cout << test[j];
+
+    dr.GoToXY(0, i - x);
+
+    std::cout << ' ';
+
+    Sleep(75);
+
+    i++;
+    j++;
+}
+*/

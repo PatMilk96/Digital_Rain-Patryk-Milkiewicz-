@@ -91,8 +91,8 @@ void Rain::SetSpeeds(const std::vector<int>& sp) {
     width = width / 2;
     int sp1, sp2;
 
-    sp1 = (-9 * width) + 1554;
-    sp2 = (-6.33 * width) + 1038;
+    sp1 = (-9 * width) + 1754;
+    sp2 = (-6.33 * width) + 1000;
 
 
     for (int i = 0; i < width; ++i) {
@@ -137,10 +137,10 @@ int Rain::ReturnRand(int x) {
     
 
     if (x == 0) {
-        rand = int(-9 * width) + 1650;
+        rand = int(-9 * width) + 1754;
     }
     else if (x == 1) {
-        rand = int(-6.33 * width) + 900;
+        rand = int(-6.33 * width) + 1000;
     }
     
     return rand;
@@ -187,12 +187,7 @@ void Rain::Print(Rain& dr) {
     std::vector<char> drop = dr.GetChars();
     static std::vector<int> SpeedsCopy = GetSpeeds();
     static int SpeedFlag = 0;
-    static int height;
-
-    if (SpeedFlag == 0) {
-        height = ScreenSize(1);
-        SpeedFlag = 1;
-    }
+    static int height = ScreenSize(1);
 
 
     if (dr.GetArrP() == size(drop)) { dr.SetArrP(0); }
