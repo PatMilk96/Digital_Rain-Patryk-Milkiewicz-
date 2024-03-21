@@ -114,7 +114,6 @@ std::vector<char> Rain::GenerateRandomChars() {
 
 
 int Rain::ScreenSize(int x) {
-    //https://learn.microsoft.com/en-us/archive/msdn-technet-forums/0de248af-3497-4537-bb41-6d129b04fb27
     HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
     CONSOLE_SCREEN_BUFFER_INFO consolesize;
     GetConsoleScreenBufferInfo(hConsole, &consolesize);
@@ -224,12 +223,3 @@ void Rain::Print(Rain& dr) {
         }
     }
 }
-
-// need a speed function to set the speed according to screen size
-
-
-//copy speeds in another vector and do not change them, this vector will only be used to copy the speed into the droplet object, I will decrement the droplets speed in order to avoid my previous
-//problem where droplets were out of sync because I was decrementing the copy vector of speeds. I need to know the position of the droplet in the vector and then just copy the speed from my copy
-//speeds vector into my droplet object
-
-//create a speed vector in my print class, when my vector reaches the end then just skip to the next vector if that vector the goes back to pos == 0 then don't skip it ?.... so if(pos(Y) == 49) skip

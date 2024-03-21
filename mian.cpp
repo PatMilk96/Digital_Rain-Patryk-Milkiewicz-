@@ -26,11 +26,11 @@ int main() {
     Rain rain;
     std::vector<Rain> raindrops;
 
-    rain.Init(raindrops); // Initialize raindrops once
+    rain.Init(raindrops);
     system("Color 0A");
     while (1) {
         for (auto& drop : raindrops) {
-            rain.Print(drop); // Print each raindrop
+            rain.Print(drop);
         }
     }
     
