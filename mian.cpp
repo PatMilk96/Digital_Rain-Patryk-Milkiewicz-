@@ -21,12 +21,12 @@ Patryk Milkiewicz
 
 
 int main() {
+    std::cout << "Please adjust the window to your desired size\n" << std::endl;
     system("pause");
-    std::cout << "Please adjust the window to your desired size";
     std::system("CLS");
     Rain rain;
     std::vector<Rain> raindrops;
-
+    
     rain.Init(raindrops);
     system("Color 0A");
     while (1) {
@@ -34,11 +34,12 @@ int main() {
             rain.Print(drop);
         }
     }
-    
+  
 
-    
-    
     /*
+    The original algorithm
+    Rain dr;
+    std::vector<char> test = { '1','2','3', '4', '5', '6', '7', '8','9', '1', '2', '3', '4', '5' };
     int i = 0;
     int j = 0;
     int x = size(test);
