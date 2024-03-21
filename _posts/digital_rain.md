@@ -24,5 +24,5 @@ A bullet list:
 - iterators
 
 
-Adding some tesxt
+Adding some
 
