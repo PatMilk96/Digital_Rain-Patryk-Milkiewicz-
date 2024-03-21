@@ -5,11 +5,9 @@ tags: cpp coding project
 categories: demo
 ---
 
-This is my first paragraph...
+## Introduction
 
-## This is a Heading
-
-This is a paragraph. Add an empty line to start a new paragraph.
+In this blog I will describe my thought process behind creating my digital rain, the technologies used the details of code implementation along with any issues I faced along the way. 
 
 Font can be *Italic* or **Bold**.
 
